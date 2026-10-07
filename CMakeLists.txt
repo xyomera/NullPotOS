@@ -19,9 +19,11 @@ ExternalProject_Add(limine
   INSTALL_COMMAND "" 
 )
 
+add_subdirectory(${CMAKE_SOURCE_DIR}/kernel)
+
 add_custom_target(iso ALL
     COMMENT "Making ISO image for ${PROJECT_NAME}"
-    DEPENDS limine
+    DEPENDS limine kernel
     COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/iso/efi/boot
     COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/iso/${PROJECT_NAME}
     COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/limine/src/limine-build/bin/BOOTX64.EFI ${CMAKE_BINARY_DIR}/iso/efi/boot/bootx64.efi
@@ -29,6 +31,7 @@ add_custom_target(iso ALL
     COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/limine/src/limine-build/bin/limine-uefi-cd.bin ${CMAKE_BINARY_DIR}/iso/
     COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/limine/src/limine-build/bin/limine-bios-cd.bin ${CMAKE_BINARY_DIR}/iso/
     COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/assets/iso/limine.conf ${CMAKE_BINARY_DIR}/iso/
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/kernel/kernel ${CMAKE_BINARY_DIR}/iso/${PROJECT_NAME}/kernel.elf
     COMMAND xorriso -as mkisofs -R -r -J -b limine-bios-cd.bin
         -no-emul-boot -boot-load-size 4 -boot-info-table
         -hfsplus -apm-block-size 2048

@@ -27,4 +27,4 @@ namespace io {
     auto disable_interrupts() -> void;
 
     [[noreturn]] auto kernel_halt() -> void;
-} // namespace hal::io
+} // namespace io

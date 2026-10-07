@@ -70,4 +70,4 @@ namespace io {
             asm volatile("hlt");
         }
     }
-} // namespace hal::io
+} // namespace io

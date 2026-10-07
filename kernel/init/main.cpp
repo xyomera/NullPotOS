@@ -4,6 +4,7 @@
  */
 
 #include <cstdint>
+#include <drivers/serial/serial.hpp>
 #include <limine.h>
 
 namespace {
@@ -28,6 +29,9 @@ namespace {
 } // namespace
 
 extern "C" [[noreturn]] auto kernel_main() -> void {
+    serial::SerialPort serial_port(serial::COM1);
+    serial_port.serial_write("\nHello, NullPotOS!\n");
+
     asm volatile("cli");
     while (true) {
         asm volatile("hlt");
